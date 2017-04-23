@@ -12,3 +12,26 @@ var initRestaurants = [
     {name: 'Mensho Tokyo', lat: 37.7867071, long: -122.4165156, yelpId: 'mensho-tokyo-san-francisco-2'}
 ];
 
+// create the view model and the bindings
+function loadModel() {
+    ko.applyBindings(new viewModel());
+}
+
+// view model function
+function viewModel(){
+    var self = this;
+
+    // generate the map object
+    map = new google.maps.Map(
+        document.getElementById('map'), {
+        zoom: 12,
+        center: {lat: 37.825734, lng: -122.368263}
+    });
+
+    
+}
+
+// error handle for google map
+function errorHandle() {
+    alert("Map can't load! Please check your network!");
+}
