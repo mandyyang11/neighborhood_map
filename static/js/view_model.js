@@ -28,7 +28,53 @@ function viewModel(){
         center: {lat: 37.825734, lng: -122.368263}
     });
 
+    // generate a single InfoWindow for all markers to use
+    masterInfoWindow = new google.maps.InfoWindow({
+                content: 'hello world!'
+            });
     
+    // initialize filter with empty string and restaurants with empty array
+    this.filter = ko.observable('');
+    this.restaurants = ko.observableArray([]);
+    
+    // compute the restaurants to show
+    ko.computed(
+        function() {
+            
+            // convert the filter to lower case for comparison
+            var lowerCaseFilter = self.filter().toLowerCase();
+                
+            // empty restaurants for new filtering word and hide all markers
+            self.restaurants.removeAll();
+            hideAllMarkers();
+            
+            // iterate throguh each restaurant in the initial list and
+            // push only the ones contain filtered words onto the array
+            // also display markers of their locations on the map
+            for (var i in initRestaurants){
+                var lowerCaseRestaurant = initRestaurants[i].name.toLowerCase();
+                if (lowerCaseRestaurant.includes(lowerCaseFilter)){
+
+                    // generate marker for the location if its not yet generated
+                    // or if the yelp data is not loaded
+                    if (markers.length <= i || yelp.length <= i){
+                        addMarker({lat: initRestaurants[i].lat,
+                              lng: initRestaurants[i].long},
+                              i);
+                    }else{
+
+                        // set the marker to visible if it exists
+                        markers[i].setVisible(true);
+                    }
+
+                    // bind the name and the marker to the resaurants
+                    self.restaurants.push({name: initRestaurants[i].name,
+                        marker: markers[i]});
+                    
+                }
+            }
+        }
+    );
 }
 
 // error handle for google map
