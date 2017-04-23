@@ -49,6 +49,14 @@ function addMarker(location, idx) {
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// hide all markers instead of destory them
+function hideAllMarkers() {
+    for (var i in markers){
+        markers[i].setVisible(false);
+    }
+}
+
+
 
 // statically define the list of restaurants
 var initRestaurants = [
