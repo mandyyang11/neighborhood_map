@@ -56,7 +56,10 @@ function hideAllMarkers() {
     }
 }
 
-
+// trigger the infowindow for the given marker
+function click(marker) {
+    google.maps.event.trigger(marker, 'click');
+}
 
 // statically define the list of restaurants
 var initRestaurants = [
